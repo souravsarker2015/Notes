@@ -1,0 +1,67 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+</head>
+
+<body>
+<form action="/filter">
+    <div id="filter_form">
+
+    </div>
+    <input type="submit" name="submit" value="Submit">
+</form>
+</body>
+
+<script>
+    var itemCount = 0;
+
+    appendValue();
+
+    function appendValue() {
+        itemCount++;
+        const html = `
+        <div id='section` + itemCount + `'>
+            <select name="column" onchange="valueChange(this,` + itemCount + `)">
+                <option value="age">Age</option>
+                <option value="country">Country</option>
+                <option value="country">Email</option>
+            </select>
+            <select name="column_operator">
+                <option value="is">=</option>
+                <option value="is_less_than"><=</option>
+                <option value="is_grater_than"><=</option>
+            </select>
+            <select id='selectValue` + itemCount + `' name="column_value">
+                <option value="age">Age</option>
+                <option value="country">Country</option>
+            </select>
+            <button onclick='appendValue()'>+</button>
+            <button onclick='removeItem(` + itemCount + `)'>-</button>
+        </div>
+        `;
+
+        $('#filter_form').append(html);
+        $("#selectValue" + itemCount).select2();
+    }
+
+    function removeItem(val) {
+        $('#section' + val).outerHTML = "";
+    }
+
+    function valueChange(object, counter) {
+        if (object.value === 'age') {
+            $("#selectValue" + itemCount).html("");
+            for (let l = 20; l < 100; l++) {
+                $("#selectValue" + itemCount).append('<option value="' + l + '">' + l + '</option>');
+            }
+        } else if (object.value === 'country') {
+            $("#selectValue" + itemCount).html("");
+            $("#selectValue" + itemCount).append('<option value="US">USA</option>');
+            $("#selectValue" + itemCount).append('<option value="NP">Nepal</option>');
+            $("#selectValue" + itemCount).append('<option value="BD">Bangladesh</option>');
+        }
+    }
+</script>
+</html>

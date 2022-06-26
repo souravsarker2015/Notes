@@ -1,0 +1,112 @@
+{% extends 'email_app/base/base.html' %}
+{% block title %}
+    <title>Email Send</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="shadow p-5">
+            <h3 class="" style="margin-left: 20px; margin-top: -30px;">Add Filter</h3>
+            <hr>
+
+            <form action="" method="post" class="mt-3" id="my_form">
+                <div class="row_ d-flex">
+                    <div>
+
+                    </div>
+                    <div>
+                        <select class="select_col" name="age_col" style="margin-left: 210px;width:120px; height: 30px;">
+                            <option value=""></option>
+                            <option value="Age">Age</option>
+                            <option value="Country">Country</option>
+                            <option value="State">State</option>
+                            <option value="City">City</option>
+                            <option value="Email">Email</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <select name="age_eql" class="select_eql" style="margin-left: 50px; height: 30px; width: 120px">
+                            <option value=""></option>
+                            <option value="is">is</option>
+                            <option value="is_more_than">is more than</option>
+                            <option value="is_less_than">is more than</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <input type="number" class="select_value" name="age_value"
+                               style="margin-left: 50px; height: 30px; width:205px">
+                    </div>
+
+
+                    <input type="button" name="" style="margin-left: 50px;font-size:20px;" value="+"
+                           onclick="add_div();">
+                </div>
+                {#{% for c in country %}#}
+                {#{{ c.name }}#}
+                {#{% endfor %}#}
+            </form>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $("body").on("change", ".select_col", function (e) {
+                var row = $(this).closest('.row_');
+                var second_dropdown = $(row).find('.select_eql')
+                var third_dropdown = $(row).find('.select_value')
+                var temp1 = ""
+                var temp2 = ""
+
+                temp1 += `<option value="is">is</option>
+                            <option value="is_more_than">is not</option>`;
+
+                temp2 += `<select name="select_value" style="margin-left: 50px; height: 30; width: 205px">
+                        {% for c in country %}
+                            <option value="">{{ c.name }}</option>
+                        {% endfor %}
+
+                        </select>`
+
+                if (this.value === "Country" || this.value === "State" || this.value === "City") {
+                    second_dropdown.empty();
+                    second_dropdown.append(temp1);
+                }
+
+                /*if (this.value === "Country") {
+                    let divs = row.find('div')
+                    $(row).find('.select_value').remove()
+                    divs[3].append("<select name='select_value' style='margin-left: 50px; height: 30; width: 205px'>{% for c in country %}<option value=''>{{ c.name }}</option>{% endfor %}</select>");
+                    console.log(divs[3])
+                }*/
+
+
+                console.log(row)
+                {#var second_dropdown = $(row).find('.select_eql')#}
+                console.log(second_dropdown.val())
+
+                console.log(third_dropdown.val())
+            });
+        });
+
+
+    </script>
+
+{% endblock %}
+
+{#function first_row() {#}
+{#                let rows = document.querySelectorAll(".row_")#}
+{#                for (let i = 0; i < rows.length; i++) {#}
+{#                    if (i === 0) {#}
+{#                        select_row();#}
+{#                    }#}
+{#                }#}
+{#            }#}
+{##}
+{#            first_row();#}

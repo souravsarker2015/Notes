@@ -1,0 +1,288 @@
+{% extends 'email_app/base/base.html' %}
+{% block title %}
+    <title>Email Send</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container id_count_tag">
+        <div class="shadow  mt-2 p-5">
+            <h3 class="" style="margin-left: 20px; padding-top: 10px">Add Filter</h3>
+            <hr>
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Create Filter </h6>
+            </div>
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group mb-5" style="width: 96%; margin-left:20px">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title">
+                </div>
+
+                <div class="age-div age_">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div style="margin-right: 50px; margin-left: 150px">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width:150px;height: 30px" name="age_col">
+                                <option value="age" selected>Age</option>
+                                <option value="country">Country</option>
+                                <option value="state">State</option>
+                                <option value="city">City</option>
+                                <option value="email">Email</option>
+                            </select>
+                        </div>
+                        <div id="age-measure-div">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width:150px;height: 30px" name="age_eql">
+                                <option value="is" selected>is</option>
+                                <option value="is_more_than">is more than</option>
+                                <option value="is_less_than">is less than</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="number" id="input_age_" style="width:150px;height: 30px" name="age_value" >
+                        </div>
+                        <div id="filter-div" class="add_filter_hover_" style="margin-right: 30px">
+                            <p onclick="filter_occurrence1()" id="1">Add Filter
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" country_" id="country_">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div id="and-or" class="and-or_" style="margin-left: 50px">
+                            <select class="form-select" aria-label="Default select example" style="height: 30px;"
+                                    name="country_op">
+                                <option value="and" selected>And</option>
+                                <option value="or">Or</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-right: 50px ;margin-left: 0px">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width:150px;height: 30px" name="country_col">
+                                <option value="age">Age</option>
+                                <option value="country" selected>Country</option>
+                                <option value="state">State</option>
+                                <option value="city">City</option>
+                                <option value="email">Email</option>
+                            </select>
+                        </div>
+                        <div id="age-measure-div">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width:150px;height: 30px" name="country_eql">
+                                <option value="is" selected>is</option>
+                                <option value="is_not">is not</option>
+                            </select>
+                        </div>
+                        <div style="margin-left: 0px !important">
+                            <select class="js-example-basic-multiple" multiple="multiple"
+                                    style="width:150px;height: 30px" name="country_value">
+                                {% for c in country %}
+                                    <option value="{{ c.name }}">{{ c.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="filter-div" class="add_filter_hover_" style="margin-right: 30px">
+                            <p onclick="filter_occurrence2();" id="1">Add Filter
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="state_" id="state_">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div id="and-or" class="and-or_" style="margin-left: 50px">
+                            <select class="form-select" aria-label="Default select example" style="height: 30px;"
+                                    name="state_op">
+                                <option value="and" selected>And</option>
+                                <option value="or">Or</option>
+                            </select>
+                        </div>
+                        <div style="margin-right: 50px;margin-left: 0px">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width:150px;height: 30px" name="state_col">
+                                <option value="age">Age</option>
+                                <option value="country">Country</option>
+                                <option value="state" selected>State</option>
+                                <option value="city">City</option>
+                                <option value="email">Email</option>
+                            </select>
+                        </div>
+                        <div id="age-measure-div">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width:150px;height: 30px" name="state_eql">
+
+                                <option value="is" selected>is</option>
+                                <option value="is_not">is not</option>
+                            </select>
+
+
+                        </div>
+                        <div>
+                            <select class="js-example-basic-multiple" multiple="multiple"
+                                    style="width:150px;height: 30px" name="state_value">
+                                {% for s in state %}
+                                    <option value="{{ s.name }}">{{ s.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="filter-div" class="add_filter_hover_" style="margin-right: 30px">
+                            <p onclick="filter_occurrence3();" id="1">Add Filter
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city_" id="city_">
+                    <div class="d-flex flex-row justify-content-between ">
+                        <div id="and-or" class="and-or_" style="margin-left: 50px">
+                            <select class="form-select" aria-label="Default select example" style="height: 30px;"
+                                    name="city_op">
+                                <option value="and" selected>And</option>
+                                <option value="or">Or</option>
+                            </select>
+                        </div>
+                        <div style="margin-right: 50px ;margin-left: 0px">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width:150px;height: 30px" name="city_col">
+                                <option value="age">Age</option>
+                                <option value="country">Country</option>
+                                <option value="state">State</option>
+                                <option value="city" selected>City</option>
+                                <option value="email">Email</option>
+                            </select>
+                        </div>
+                        <div id="age-measure-div">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width:150px;height: 30px" name="city_eql">
+
+                                <option value="is" selected>is</option>
+                                <option value="is_not">is not</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select class="js-example-basic-multiple" multiple="multiple"
+                                    style="width:150px;height: 30px" name="city_value">
+                                {% for ct in city %}
+                                    <option value="{{ ct.name }}">{{ ct.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="filter-div" class="add_filter_hover_" style="margin-right: 30px">
+                            <p onclick="filter_occurrence4();" id="1">Add Filter
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email_" id="email_">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div id="and-or" class="and-or_" style="margin-left: 50px">
+                            <select class="form-select" aria-label="Default select example" style="height: 30px;"
+                                    name="email_op">
+                                <option value="and" selected>And</option>
+                                <option value="or">Or</option>
+                            </select>
+                        </div>
+                        <div style="margin-right: 65px ;margin-left: 10px">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width:150px;height: 30px" name="email_col">
+                                <option value="age">Age</option>
+                                <option value="country">Country</option>
+                                <option value="state">State</option>
+                                <option value="city">City</option>
+                                <option value="email" selected>Email</option>
+                            </select>
+                        </div>
+                        <div id="age-measure-div1">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="width:150px;height: 30px; margin-left:-5px" name="email_eql">
+
+                                <option value="are" selected>are</option>
+                                <option value="are_not">are not</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <select class="js-example-basic-multiple" multiple="multiple"
+                                    style="width:150px;height: 30px" name="email_value">
+                                {% for em in recipients %}
+                                    <option value="{{ em.email_address }}">{{ em.email_address }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="filter-div" class="add_filter_hover_" style="margin-right: 22px">
+                            <p class="text-danger" onclick="filter_occurrence5();" id="1">Close Filters
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit"
+                            class="btn btn-primary mb-5 mt-5 ms-5 me-5" style="width: 96%;">
+                        Submit
+                    </button>
+                </div>
+
+
+            </form>
+
+
+        </div>
+    </div>
+
+    {% block javascript %}
+
+        <script type="text/javascript">
+            {#var form = document.querySelector('form');#}
+            {#var data = new FormData(form);#}
+            {#console.log(data)            #}
+
+            $(document).ready(function () {
+                $('.js-example-basic-multiple').select2({
+                    tags: true,
+                    tokenSeparators: [',', ' ']
+                });
+            });
+
+
+            function filter_occurrence1() {
+                let country = document.getElementById("country_");
+                country.style.cssText += ';display:block !important;'
+            }
+
+            function filter_occurrence2() {
+                let state = document.getElementById("state_");
+                state.style.cssText += ';display:block !important;'
+            }
+
+            function filter_occurrence3() {
+                let city = document.getElementById("city_");
+                city.style.cssText += ';display:block !important;'
+            }
+
+            function filter_occurrence4() {
+                let email = document.getElementById("email_");
+                email.style.cssText += ';display:block !important;'
+            }
+
+            function filter_occurrence5() {
+                let email = document.getElementById("email_");
+                email.style.cssText += ';display:none !important;'
+                let city = document.getElementById("city_");
+                city.style.cssText += ';display:none !important;'
+                let state = document.getElementById("state_");
+                state.style.cssText += ';display:none !important;'
+                let country = document.getElementById("country_");
+                country.style.cssText += ';display:none !important;'
+            }
+        </script>
+
+
+    {% endblock %}
+
+{% endblock %}
+

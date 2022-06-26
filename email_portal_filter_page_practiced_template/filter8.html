@@ -1,0 +1,290 @@
+{% extends 'email_app/base/base.html' %}
+{% block title %}
+    <title>Email Send</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="shadow p-5">
+            <h3 class="" style="margin-left: 20px; margin-top: -30px;">Add Filter</h3>
+            <hr>
+
+            <form action="" method="post" class="mt-3">
+                {% csrf_token %}
+                <div id="my_form">
+                    <div class="row_ d-flex">
+                        <div></div>
+                        <div>
+                            <select class="select_col" name="age_col" style="margin-left: 210px;width:120px; height: 30px;">
+                                <option value=""></option>
+                                <option value="Age">Age</option>
+                                <option value="Country">Country</option>
+                                <option value="State">State</option>
+                                <option value="City">City</option>
+                                <option value="Email">Email</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <select name="age_eql" class="select_eql" style="margin-left: 50px; height: 30px; width: 120px">
+                                <option value=""></option>
+                                <option value="is">is</option>
+                                <option value="is_more_than">is more than</option>
+                                <option value="is_less_than">is more than</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <input type="number" class="select_value" name="age_value" style="margin-left: 50px; height: 30px; width:205px">
+                        </div>
+
+                        <div>
+                            <input type="button" style="margin-left: 50px;font-size:20px;" value="+" onclick="add_div();">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center" >
+                    <button type="submit"
+                            class="btn btn-primary mb-5 mt-5 ms-5 me-5" style="width: 92%;">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        function remove_div(btn) {
+            $(btn).closest('.row_').remove()
+            {#((btn.parentNode).parentNode).parentNode.removeChild(btn.parentNode);#}
+        }
+
+        function select_row() {
+            let rows = document.querySelectorAll(".row_")
+            rows.forEach((row) => {
+                    let divs = row.querySelectorAll('div')
+                    divs[1].querySelector('select').addEventListener('change', updateValue)
+
+                    function updateValue() {
+                        if (divs[1].querySelector('select').value === 'Age') {
+                            console.log("age");
+
+                            divs[1].querySelector('select').name = 'age_col'
+                            if (divs[0].childNodes.length !== 0) {
+                                divs[0].querySelector('select').name = 'age_op'
+                            }
+
+                            divs[2].innerHTML = `
+                                    <select name="age_eql" style="margin-left: 50px; height: 30px; width: 120px">
+                                        <option value="is" selected>is</option>
+                                        <option value="is_more_than">is more than</option>
+                                        <option value="is_less_than">is more than</option>
+                                    </select>
+                                    `
+                            divs[3].innerHTML = `
+                                    <input type="number" name="age_value" style="margin-left: 50px; height: 30px; width:205px">
+                                    `
+                        }
+
+                        if (divs[1].querySelector('select').value === 'Country') {
+                            console.log("country")
+                            if (divs[0].childNodes.length !== 0) {
+                                divs[0].querySelector('select').name = 'country_op'
+                            }
+                            divs[1].querySelector('select').name = 'country_col'
+
+                            divs[2].innerHTML = `
+                            <select name="country_eql" style="margin-left: 50px; margin-right: 50px; height: 30px; width: 120px">
+                                <option value="is">is</option>
+                                <option value="is_not">is not</option>
+                            </select>
+                            `
+                            divs[3].innerHTML = `
+                                <select class="js-example-basic-multiple" multiple="multiple"  name="country_value" style="margin-left: 50px; height: 30px; width: 205px">
+                                    {% for c in country %}
+                                        <option value="">{{ c.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            `
+                        }
+
+                        {#country end#}
+
+                        if (divs[1].querySelector('select').value === 'State') {
+                            console.log('State')
+
+                            if (divs[0].childNodes.length !== 0) {
+                                divs[0].querySelector('select').name = 'state_op';
+                            }
+                            divs[1].querySelector('select').name = 'state_col';
+
+                            divs[2].innerHTML = `
+                            <select name="state_eql" style="margin-left: 50px;margin-right: 50px; height: 30px; width: 120px">
+                                <option value="is">is</option>
+                                <option value="is_not">is not</option>
+                            </select>
+                            `
+                            divs[3].innerHTML = `
+                            <select class="js-example-basic-multiple" multiple="multiple" name="state_value" style="margin-left: 50px; height: 30px; width: 205px">
+                                {% for s in state %}
+                                    <option value="">{{ s.name }}</option>
+                                {% endfor %}
+                            </select>   `
+                        }
+
+                        if (divs[1].querySelector('select').value === 'City') {
+                            console.log('City')
+                            if (divs[0].childNodes.length !== 0) {
+                                divs[0].querySelector('select').name = 'city_op';
+                            }
+                            divs[1].querySelector('select').name = 'city_col'
+
+                            divs[2].innerHTML = `
+                            <select name="city_eql" style="margin-left: 50px;margin-right: 50px; height: 30px; width: 120px">
+                                <option value="is">is</option>
+                                <option value="is_not">is not</option>
+                            </select>
+                            `
+                            divs[3].innerHTML = `
+                            <select class="js-example-basic-multiple" multiple="multiple" name="city_value" style="margin-left: 50px; height: 30px; width: 205px">
+                                        {% for ct in city %}
+                                            <option value="">{{ ct.name }}</option>
+                                        {% endfor %}
+                                </select>
+                            `
+                        }
+
+                        if (divs[1].querySelector('select').value === 'Email') {
+                            console.log('Email')
+                            if (divs[0].childNodes.length !== 0) {
+                                divs[0].querySelector('select').name = 'email_op';
+                            }
+
+                            divs[1].querySelector('select').name = 'email_col'
+                            divs[2].innerHTML = `
+                            <select name="email_eql" style="margin-left: 50px; height: 30px; margin-right: 50px; width: 120px">
+                            <option value="are">are</option>
+                            <option value="are_not">are not</option>
+                        </select>
+                            `
+
+                            divs[3].innerHTML = `
+                            <select class="js-example-basic-multiple" multiple="multiple" name="email_value" style="margin-left: 50px; height: 30px; width: 205px">
+                                {% for r in recipients %}
+                                    <option value="">{{ r.email_address }}</option>
+                                {% endfor %}
+                            </select>
+                            `
+                        }
+                        addSelect2();
+                        //setTimeout(function () {
+                        // addSelect2();
+                        // }, 1);
+                    }
+                }
+            );
+
+        }
+
+        var counter = 0;
+
+        function add_div() {
+            var temp = `<div class = "row_ d-flex mt-4" >
+                            <div>
+                                <select name = "age_eql" style = "margin-left: 40px; height: 30px; width: 120px;" >
+                                    <option value="and">and</option>
+                                    <option value="or">or</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select class="select_col" name="age_col"
+                                        style="margin-left: 50px;width:120px; height: 30px;">
+                                    <option value=""></option>
+                                    <option value="Age">Age</option>
+                                    <option value="Country">Country</option>
+                                    <option value="State">State</option>
+                                    <option value="City">City</option>
+                                    <option value="Email">Email</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <select name="age_eql" class="select_eql" style="margin-left: 50px; height: 30px; width: 120px">
+                                    <option value=""></option>
+                                    <option value="is">is</option>
+                                    <option value="is_more_than">is more than</option>
+                                    <option value="is_less_than">is more than</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input type="number" class="select_value" name="age_value"
+                                       style="margin-left: 50px; height: 30px; width:205px">
+                            </div>
+
+                                <div>
+                                    <input type="button" name="" style="margin-left: 50px;font-size:20px;" value="+"
+                                   onclick="add_div();">
+                                </div>
+                                <div>
+                                        <input class="remove" type="button" id="" name=""
+                                       style="margin-left: 50px;font-size:20px;" value="-"
+                                       onclick="remove_div(this);">
+                                </div>
+
+
+                                </div>
+                                `
+            $("#my_form").append(temp)
+
+            function after_first_row() {
+                let rows = document.querySelectorAll(".row_")
+                for (let i = 0; i < rows.length; i++) {
+                    if (i >= 0) {
+                        select_row();
+                    }
+                }
+            }
+
+            after_first_row()
+            selectRefresh();
+
+        }
+
+        function first_row() {
+            let rows = document.querySelectorAll(".row_")
+            for (let i = 0; i < rows.length; i++) {
+                if (i === 0) {
+                    select_row();
+                }
+            }
+        }
+
+        first_row();
+
+        function selectRefresh() {
+
+        }
+
+        function addSelect2() {
+            $('.js-example-basic-multiple').select2({
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
+        };
+    </script>
+
+{% endblock %}
+
+{#function first_row() {#}
+{#                let rows = document.querySelectorAll(".row_")#}
+{#                for (let i = 0; i < rows.length; i++) {#}
+{#                    if (i === 0) {#}
+{#                        select_row();#}
+{#                    }#}
+{#                }#}
+{#            }#}
+{##}
+{#            first_row();#}
